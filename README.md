@@ -1,25 +1,95 @@
 # Apartment Application
 
-## Generating Rails Application
+## Create new Rails project with a PostgreSQL database
 
 ```shell
 $ rails new apartment-app -d postgresql -T
 $ cd apartment-app
-$ rails db:greate
+$ rails db:generate
 $ rails s
+```
+
+## Add rspec to the Application
+
+```shell
+$ bundle add rspec-rails
+$ rails generate rspec:install
+```
+
+## Add Devise to the application
+
+```shell
+$ bundle add devise
+```
+
+<!-- Depending on your application's configuration some manual setup may be required:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+     In production, :host should be set to the actual host of your application.
+
+     * Required for all applications. *
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root to: "home#index"
+
+     * Not required for API-only Applications *
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+     * Not required for API-only Applications *
+
+  4. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+     * Not required * -->
+
+```shell
+$ rails generate devise User
+```
+
+## Add React
+
+```shell
 $ bundle add react-rails
 $ rails webpacker:install:react
 $ rails generate react:install
 $ rails generate react:component App
 ```
 
-### Created React Component in Rails Application
+## Serve React Components
 
 ```shell
-$ bundle add react-rails
-$ rails webpacker:install:react
-$ rails generate react:install
-$ rails generate react:component App
+$ rails generate controller Home
+```
+
+### Added index.html.erb and input component call
+
+```html
+<%= react_component 'App' %>
+```
+
+### direct the Rails app to serve the React App.js component as the landing page
+
+```ruby
+# ../config/routes.rb
+
+Rails.application.routes.draw do
+  resources :apartments
+  devise_for :users
+  root 'home#index'
+end
 ```
 
 ### Updated Javascript file with class component
@@ -38,4 +108,24 @@ class App extends Component {
 }
 
 export default App
+```
+
+### Generate Apartment Resource
+
+```shell
+$ rails g resource Apartment street:string city:string state:string manager:string email:string price:string
+$ rails db:migrate
+```
+
+### create relationship between users and apartments
+
+```ruby
+# ./app/models/user.rb
+class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+  has_many :apartments
+end
 ```
