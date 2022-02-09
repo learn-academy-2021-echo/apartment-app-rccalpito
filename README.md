@@ -129,3 +129,33 @@ class User < ApplicationRecord
   has_many :apartments
 end
 ```
+
+## Navigation
+
+### As an unregistered user, I can see the navigation options for a page with all the apartment listings, a page where I can create an account, and always get back to the home page.
+
+```shell
+$ git checkout -b navigation
+```
+
+```ruby
+# ./config/environments/development.rb
+# Creates a special model called User that gets devise code injected into each new model instance.
+# allows for devise sign in and sign up forms
+config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+# ./config/routes.rb
+<%= react_component 'App', {
+  logged_in: user_signed_in?,
+  current_user: current_user,
+  new_user_route: new_user_registration_path,
+  sign_in_route: new_user_session_path,
+  sign_out_route: destroy_user_session_path
+} %>
+```
+
+```shell
+$ bundle add bootstrap
+$ yarn add reactstrap
+$ yarn add react-router-dom@5.3.0
+```
