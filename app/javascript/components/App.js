@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import ApartmentIndex from './components/ApartmentIndex'
+import ApartmentIndex from './pages/ApartmentIndex'
 import Header from './components/Header'
-import Home from './components/Home'
+import Home from './pages/Home'
+import ApartmentShow from './pages/ApartmentShow'
+import mockApartments from './assets/mockApartments'
 import {
   BrowserRouter as Router,
   Route,
@@ -9,6 +11,12 @@ import {
 } from 'react-router-dom'
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      apartments: mockApartments
+    }
+  }
   render() {
     const {
       logged_in,
@@ -21,15 +29,19 @@ class App extends Component {
     return (
       <>
         <Router>
-          <Header />
+          <Header {...this.props} />
           <Switch>
-
-            <h1>This is App.js</h1>
             <Route
               path="/apartmentindex"
-              render={() => <ApartmentIndex apartments={...props} />}
+              render={() => <ApartmentIndex apartments={this.state.apartments}></ApartmentIndex>}
             />
-            <Home />
+            <Route
+              path="/apartmentshow/:id" render={(props) => {
+                let id = +props.match.params.id
+                let apartment = this.state.apartments.find((apartment) => apartment.id === id)
+                return <ApartmentShow apartment={apartment} />
+              }}
+            />
           </Switch>
         </Router>
       </>
