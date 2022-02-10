@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import ApartmentIndex from './pages/ApartmentIndex'
 import Header from './components/Header'
 import Home from './pages/Home'
+import ApartmentEdit from './pages/ApartmentEdit'
 import ApartmentShow from './pages/ApartmentShow'
+import ApartmentNew from './pages/ApartmentNew'
 import mockApartments from './assets/mockApartments'
 import {
   BrowserRouter as Router,
@@ -40,6 +42,17 @@ class App extends Component {
                 let id = +props.match.params.id
                 let apartment = this.state.apartments.find((apartment) => apartment.id === id)
                 return <ApartmentShow apartment={apartment} />
+              }}
+            />
+            <Route
+              path="/apartmentnew"
+              render={() => <ApartmentNew createApartment={this.createApartment} />}
+            />
+            <Route
+              path="/apartmentedit/:id" render={(props) => {
+                let id = +props.match.params.id
+                let apartment = this.state.apartments.find((apartment) => apartment.id === id)
+                return <ApartmentEdit apartment={apartment} />
               }}
             />
           </Switch>
