@@ -1,0 +1,8 @@
+:root {
+  --background: rgb(42, 36, 36);
+  --foreground: #001986;
+  --accent: #d0d0d0;
+  --big-text: #adadad;
+  --reg-text: #ffffff;
+  --header-font: Arial;
+}
