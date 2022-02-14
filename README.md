@@ -159,3 +159,9 @@ $ bundle add bootstrap
 $ yarn add reactstrap
 $ yarn add react-router-dom@5.3.0
 ```
+
+```ruby
+class ApplicationController < ActionController::Base
+    skip_before_action :verify_authenticity_token
+end
+```
