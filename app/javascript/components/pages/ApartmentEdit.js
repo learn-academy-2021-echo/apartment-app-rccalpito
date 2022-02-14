@@ -22,11 +22,6 @@ export default class ApartmentEdit extends Component {
     };
   }
 
-  // checkStates = () => {
-  //   console.log(this.state.updateApartment)
-  //   console.log(this.props.apartment)
-  //   console.log("TypeOf apartment.street", typeof this.props.apartment.street)
-  // }
 
   handleChange = (e) => {
     const { updateApartment } = this.state;

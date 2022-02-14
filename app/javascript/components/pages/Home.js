@@ -8,7 +8,7 @@ export default class Home extends Component {
         return (
             <section className="Home">
                 <div className="Home__Content">
-                    <p>Home</p>
+                    <p>Homeawefihawiefhaiuwyefhawiuehfaiuwe</p>
                 </div>
             </section>
         )

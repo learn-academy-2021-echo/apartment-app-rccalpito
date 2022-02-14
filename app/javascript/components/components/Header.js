@@ -12,7 +12,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import './Header.css'
 
 export default class Header extends React.Component {
@@ -57,7 +57,9 @@ export default class Header extends React.Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/apartmentnew">
+                <NavLink
+                  href="/apartmentnew"
+                >
                   show off
                 </NavLink>
               </NavItem>

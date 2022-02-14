@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-// import ApartmentIndex from './pages/ApartmentIndex'
-// import Header from './components/Header'
-// import Home from './pages/Home'
-// import ApartmentEdit from './pages/ApartmentEdit'
-// import ApartmentShow from './pages/ApartmentShow'
-// import ApartmentNew from './pages/ApartmentNew'
+import ApartmentIndex from './pages/ApartmentIndex'
+import Header from './components/Header'
+import Home from './pages/Home'
+import ApartmentEdit from './pages/ApartmentEdit'
+import ApartmentShow from './pages/ApartmentShow'
+import ApartmentNew from './pages/ApartmentNew'
 import './App.css'
 import './components/Header.css'
 import {
@@ -25,10 +25,6 @@ class App extends Component {
     this.readApartments()
   }
 
-
-
-
-
   readApartments = () => {
     fetch("/apartments")
       .then((response) => response.json())
@@ -38,17 +34,23 @@ class App extends Component {
 
   createApartment = (newApartment) => {
     fetch("/apartments", {
-      // converting an object to a string
-      body: JSON.stringify(newApartments),
-      // specify the info being sent in JSON and the info returning should be JSON
+      body: JSON.stringify(newApartment),
       headers: {
         "Content-Type": "application/json"
       },
-      // HTTP verb so the correct endpoint is invoked on the server
       method: "POST"
     })
-      .then(response => response.json())
-      .then(payload => this.readApartments())
+      .then(response => {
+        if (response.status === 422) {
+          alert("There is something wrong with your submission.")
+          // console.log({ response })
+          // alert(response)
+        }
+        return response.json()
+      })
+      .then(payload => {
+        return this.readApartments()
+      })
       .catch(errors => console.log("Apartment create errors:", errors))
   }
 
@@ -68,8 +70,6 @@ class App extends Component {
       .catch((errors) => console.log("Apartment update errors:", errors));
     console.log(updateApartment)
   };
-
-
 
   render() {
     const {
@@ -98,10 +98,10 @@ class App extends Component {
               return <ApartmentShow apartment={apartmentShow} />
             }}
           />
-          {/* <Route
+          <Route
             path="/apartmentnew"
-            render={() => <ApartmentNew createApartment={this.createApartment} />}
-          /> */}
+            render={(props) => <ApartmentNew current_user={current_user} createApartment={this.createApartment} />}
+          />
           <Route
             path="/apartmentedit/:id" render={(props) => {
               let id = +props.match.params.id
